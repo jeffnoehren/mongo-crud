@@ -71,7 +71,7 @@ router.put('/users/:id', (req, res, next) => {
     {
       username: req.body.username, 
       password: req.body.password,
-      req.body.firstName,
+      firstName: req.body.firstName,
       lastName: req.body.lastName, 
       dob: req.body.dob,
       updatedAtAt: Date.now()   

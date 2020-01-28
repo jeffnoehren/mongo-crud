@@ -31,7 +31,7 @@ router.get('/users/:id', (req, res, next) => {
   })
 })
 
-router.post('/user', (req, res, next) => {
+router.post('/users', (req, res, next) => {
   const newUsers = new Users(
     req.body.username, 
     req.body.password,

@@ -2,9 +2,9 @@ const test = require('tape')
 const request = require('supertest')
 const express = require('express')
 
-const Document = require('../models/Document')
+const Users = require('../models/Users')
 const app = require('../index')
-let documentId
+let userId
 
 before(done => {
   app.on( 'APP_STARTED', () => {
@@ -14,60 +14,60 @@ before(done => {
 
 describe('API Integration Test', () => {
   it('Runs all tests', done => {
-    test('/api/documents', assert => {
+    test('/api/users', assert => {
       request(app)
-        .post('/api/documents')
-        .send(new Document('test title', 'test user', 'test body'))
+        .post('/api/users')
+        .send(new Users('test user', 'test pass', 'test firstName', 'test lastName', 'test dob'))
         .expect(200)
         .end((err, res) => {
           if (err) return assert.fail(JSON.stringify(res))
-          assert.pass('Created a new document successfully, test passed!')
+          assert.pass('Created a new User successfully, test passed!')
           assert.end()
         })
     })
 
-    test('/api/documents', assert => {
+    test('/api/users', assert => {
       request(app)
-        .get('/api/documents')
+        .get('/api/users')
         .expect(200)
         .end((err, res) => {
           if (err) return assert.fail(JSON.stringify(res))
-          documentId = res.body[0]._id
-          assert.pass('Got all documents successfully, test passed!')
+          userId = res.body[0]._id
+          assert.pass('Got all users successfully, test passed!')
           assert.end()
         })
     })
 
-    test('/api/documents/:id', assert => {
+    test('/api/users/:id', assert => {
       request(app)
-        .get(`/api/documents/${documentId}`)
+        .get(`/api/users/${userId}`)
         .expect(200)
         .end((err, res) => {
           if (err) return assert.fail(JSON.stringify(res))
-          assert.pass('Got a specific document successfully, test passed!')
+          assert.pass('Got a specific user successfully, test passed!')
           assert.end()
         })
     })
 
-    test('/api/documents/:id', assert => {
+    test('/api/users/:id', assert => {
       request(app)
-        .put(`/api/documents/${documentId}`)
-        .send(new Document('test title edit', 'test user edit', 'test body edit'))
+        .put(`/api/users/${userId}`)
+        .send(new Users('test title edit', 'test user edit', 'test body edit'))
         .expect(200)
         .end((err, res) => {
           if (err) return assert.fail(JSON.stringify(res))
-          assert.pass('Edited a document successfully, test passed!')
+          assert.pass('Edited a users successfully, test passed!')
           assert.end()
         })
     })
 
-    test('/api/documents/:id', assert => {
+    test('/api/users/:id', assert => {
       request(app)
-        .delete(`/api/documents/${documentId}`)
+        .delete(`/api/users/${userId}`)
         .expect(200)
         .end((err, res) => {
           if (err) return assert.fail(JSON.stringify(res))
-          assert.pass('Deleted a specific document successfully, test passed!')
+          assert.pass('Deleted a specific users successfully, test passed!')
           assert.end()
           done()
         })

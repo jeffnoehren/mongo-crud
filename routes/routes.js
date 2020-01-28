@@ -1,40 +1,49 @@
 const express = require('express')
 
-const Document = require('../models/Document')
+const Users = require('../models/Users')
 const router = express.Router()
 
-router.get('/documents', (req, res, next) => {
-  req.app.locals.db.collection('documents').find({}).toArray((err, result) => {
+router.get('/users', (req, res, next) => {
+  req.app.locals.db.collection('users').find({}).toArray((err, result) => {
     if (err) {
       res.status(400).send({'error': err})
     }
     if (result === undefined || result.length === 0) {
-      res.status(400).send({'error':'No documents in database'})
+      res.status(400).send({'error':'No users in database'})
     } else {
       res.status(200).send(result)
     }
   })
 })
 
-router.get('/documents/:id', (req, res, next) => {
-  req.app.locals.db.collection('documents').findOne({
+router.get('/users/:id', (req, res, next) => {
+  req.app.locals.db.collection('users').findOne({
     '_id': req.params.id
   }, (err, result) => {
     if (err) {
       res.status(400).send({'error': err})
     }
     if (result === undefined) {
-      res.status(400).send({'error':'No document matching that id was found'})
+      res.status(400).send({'error':'No users matching that id was found'})
     } else {
       res.status(200).send(result)
     }
   })
 })
 
-router.post('/documents', (req, res, next) => {
-  const newDocument = new Document(req.body.title, req.body.username, req.body.body)
-  req.app.locals.db.collection('documents').insertOne({
-    newDocument
+router.post('/user', (req, res, next) => {
+  const newUsers = new Users(
+    req.body.username, 
+    req.body.password,
+    req.body.firstName,
+    req.body.lastName, 
+    req.body.dob,
+    Date.now(),
+    Date.now()
+  )
+
+  req.app.locals.db.collection('user').insertOne({
+    newUsers
   }, (err, result) => {
     if (err) {
       res.status(400).send({'error': err})
@@ -43,8 +52,8 @@ router.post('/documents', (req, res, next) => {
   })
 })
 
-router.delete('/documents/:id', (req, res, next) => {
-  req.app.locals.db.collection('documents').deleteOne({
+router.delete('/users/:id', (req, res, next) => {
+  req.app.locals.db.collection('users').deleteOne({
     '_id': req.params.id
   }, (err, result) => {
     if (err) {
@@ -54,15 +63,18 @@ router.delete('/documents/:id', (req, res, next) => {
   })
 })
 
-router.put('/documents/:id', (req, res, next) => {
-  req.app.locals.db.collection('documents').updateOne({
+router.put('/user/:id', (req, res, next) => {
+  req.app.locals.db.collection('user').updateOne({
     '_id': req.params.id
   }, 
   {$set:
     {
-      title: req.body.title,
-      username: req.body.username,
-      body: req.body.body
+      username: req.body.username, 
+      password: req.body.password,
+      req.body.firstName,
+      lastName: req.body.lastName, 
+      dob: req.body.dob,
+      updatedAtAt: Date.now()   
     }
   }, (err, result) => {
     if (err) {

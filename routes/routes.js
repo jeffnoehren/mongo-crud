@@ -89,8 +89,10 @@ router.get('/users/validate', (req, res, next) => {
   console.log(req.query.username)
   console.log(req.query.password)
   req.app.locals.db.collection('users').findOne({
-    'username': req.query.username,
-    'password': req.query.password
+    'newUsers':{
+      'username': req.query.username,
+      'password': req.query.password
+    }
   }, (err, result) => {
     console.log(err)
     console.log(result)

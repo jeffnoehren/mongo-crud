@@ -86,8 +86,8 @@ router.put('/users/:id', (req, res, next) => {
 
 router.get('/users/validate', (req, res, next) => {
   req.app.locals.db.collection('users').findOne({
-    'username': req.params.username,
-    'password': req.params.password
+    'username': req.query.username,
+    'password': req.query.password
   }, (err, result) => {
     if (err) {
       res.status(400).send({'error': err})

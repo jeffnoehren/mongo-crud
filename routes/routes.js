@@ -42,7 +42,7 @@ router.post('/users', (req, res, next) => {
     Date.now()
   )
 
-  req.app.locals.db.collection('user').insertOne({
+  req.app.locals.db.collection('users').insertOne({
     newUsers
   }, (err, result) => {
     if (err) {
@@ -64,7 +64,7 @@ router.delete('/users/:id', (req, res, next) => {
 })
 
 router.put('/users/:id', (req, res, next) => {
-  req.app.locals.db.collection('user').updateOne({
+  req.app.locals.db.collection('users').updateOne({
     '_id': req.params.id
   }, 
   {$set:

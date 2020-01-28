@@ -63,7 +63,7 @@ router.delete('/users/:id', (req, res, next) => {
   })
 })
 
-router.put('/user/:id', (req, res, next) => {
+router.put('/users/:id', (req, res, next) => {
   req.app.locals.db.collection('user').updateOne({
     '_id': req.params.id
   }, 

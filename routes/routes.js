@@ -84,12 +84,12 @@ router.put('/users/:id', (req, res, next) => {
   })
 })
 
-router.get('/users/validate', (req, res, next) => {
+router.get('/validate', (req, res, next) => {
   console.log(req.query)
   console.log(req.query.username)
   console.log(req.query.password)
   req.app.locals.db.collection('users').findOne({
-    'newUsers':{
+    'newUsers': {
       'username': req.query.username,
       'password': req.query.password
     }

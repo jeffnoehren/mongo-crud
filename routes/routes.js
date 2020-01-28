@@ -84,7 +84,7 @@ router.put('/users/:id', (req, res, next) => {
   })
 })
 
-router.get('/users', (req, res, next) => {
+router.get('/users/validate', (req, res, next) => {
   req.app.locals.db.collection('users').findOne({
     'username': req.params.username,
     'password': req.params.password
@@ -93,9 +93,9 @@ router.get('/users', (req, res, next) => {
       res.status(400).send({'error': err})
     }
     if (result === undefined) {
-      res.status(400).send({'error':'No users matching that id was found'})
+      res.status(400).send({'error':'invalid username and password'})
     } else {
-      res.status(200).send(result)
+      res.status(200).send(true)
     }
   })
 })

@@ -84,4 +84,20 @@ router.put('/users/:id', (req, res, next) => {
   })
 })
 
+router.get('/users', (req, res, next) => {
+  req.app.locals.db.collection('users').findOne({
+    'username': req.params.username,
+    'password': req.params.password
+  }, (err, result) => {
+    if (err) {
+      res.status(400).send({'error': err})
+    }
+    if (result === undefined) {
+      res.status(400).send({'error':'No users matching that id was found'})
+    } else {
+      res.status(200).send(result)
+    }
+  })
+})
+
 module.exports = router

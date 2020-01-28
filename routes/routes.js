@@ -92,7 +92,7 @@ router.get('/users/validate', (req, res, next) => {
     if (err) {
       res.status(400).send({'error': err})
     }
-    if (result === undefined) {
+    if (result === undefined || result.lenght < 1) {
       res.status(400).send({'error':'invalid username and password'})
     } else {
       res.status(200).send(true)
